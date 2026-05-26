@@ -31,14 +31,11 @@ imageInput.addEventListener(
 
     if (uploadedFile) {
 
-      // tampilkan preview
       previewImage.src =
         URL.createObjectURL(uploadedFile);
 
-      // reset hasil lama
       resultImage.src = "";
 
-      // sembunyikan tombol download
       downloadBtn.style.display =
         "none";
 
@@ -65,12 +62,13 @@ enhanceBtn.addEventListener(
     loading.style.display =
       "block";
 
-    enhanceBtn.disabled = true;
+    enhanceBtn.disabled =
+      true;
 
     try {
 
       /* =========================
-         Upload ke tmpfiles
+         Upload image
       ========================= */
 
       const formData =
@@ -93,10 +91,6 @@ enhanceBtn.addEventListener(
       const uploadData =
         await uploadResponse.json();
 
-      /* =========================
-         Ambil URL gambar
-      ========================= */
-
       const imageUrl =
         uploadData.data.url.replace(
           "tmpfiles.org/",
@@ -106,7 +100,7 @@ enhanceBtn.addEventListener(
       console.log(imageUrl);
 
       /* =========================
-         Request ke AI Worker
+         Request AI Worker
       ========================= */
 
       const response =
@@ -128,35 +122,58 @@ enhanceBtn.addEventListener(
         );
 
       /* =========================
-         Ambil hasil AI
+         CHECK RESPONSE TYPE
       ========================= */
 
-      const blob =
-        await response.blob();
+      const contentType =
+        response.headers.get(
+          "content-type"
+        );
 
-      const resultUrl =
-        URL.createObjectURL(blob);
+      console.log(contentType);
 
-      /* =========================
-         Tampilkan hasil
-      ========================= */
+      // Kalau JSON/error
+      if (
+        contentType &&
+        contentType.includes(
+          "application/json"
+        )
+      ) {
 
-      resultImage.src =
-        resultUrl;
+        const data =
+          await response.json();
 
-      /* =========================
-         Tombol download
-      ========================= */
+        console.log(data);
 
-      downloadBtn.href =
-        resultUrl;
+        alert(
+          JSON.stringify(data)
+        );
 
-      downloadBtn.style.display =
-        "inline-block";
+      }
 
-      alert(
-        "Enhance berhasil 🔥"
-      );
+      // Kalau image valid
+      else {
+
+        const blob =
+          await response.blob();
+
+        const resultUrl =
+          URL.createObjectURL(blob);
+
+        resultImage.src =
+          resultUrl;
+
+        downloadBtn.href =
+          resultUrl;
+
+        downloadBtn.style.display =
+          "inline-block";
+
+        alert(
+          "Enhance berhasil 🔥"
+        );
+
+      }
 
     } catch (error) {
 
