@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>AI Photo Enhancer</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>AI Photo Enhancer</h1>
+
+    <p class="subtitle">
+      Perjelas foto blur jadi HD dengan AI.
+    </p>
+
+    <!-- Upload -->
+    <div class="upload-box">
+      <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+      />
+    </div>
+
+    <!-- Tombol -->
+    <button id="enhanceBtn">
+      Enhance Photo
+    </button>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      AI sedang memproses gambar...
+    </div>
+
+    <!-- Before After -->
+    <div class="image-container">
+
+      <!-- Before -->
+      <div class="image-box">
+
+        <h3>Before</h3>
+
+        <img
+          id="previewImage"
+          src=""
+          alt="Preview"
+        />
+
+      </div>
+
+      <!-- After -->
+      <div class="image-box">
+
+        <h3>After</h3>
+
+        <img
+          id="resultImage"
+          src=""
+          alt="Result"
+        />
+
+        <a
+          id="downloadBtn"
+          download="enhanced-photo.png"
+        >
+          Download HD
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
